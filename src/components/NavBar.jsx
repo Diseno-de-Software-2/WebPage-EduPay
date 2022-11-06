@@ -1,7 +1,10 @@
 import { useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { UserContext } from '../contexts/UserContext'
 
 function NavBar() {
+
+    const { user, setUser } = useContext(UserContext)
 
     const [dropped, setDropped] = useState(false)
     const location = useLocation()
@@ -22,27 +25,24 @@ function NavBar() {
                 </div>
                 <p className="">Contáctanos</p>
                 {
-                    path === '/' ? (
-                        <a className="bg-[#470FF4] py-3 px-10" href="/sede">
-                            <p className="text-[#fff] font-thin">INICIAR</p>
-                        </a>) : (null)
-                }
-                {
-                    (path != "/" && path != "/sede" && path != "/login") ? (
-                        <div>
-                            <img onClick={() => (dropped ? setDropped(false) : setDropped(true))} className='h-10 aspect-square' src="/user.png" alt="" />
-                            <div className='absolute top-16 right-14'>
-                                <div className='relative h-5 w-5 border border-black border-l-0 border-b-0 bg-white z-10 -rotate-45 -bottom-[9.5px] -right-44'></div>
-                                <div className={dropped ? ' bg-white w-52 h-36  shadow-2xl flex flex-col justify-evenly px-3 text-left border border-black' : 'hidden'}>
-                                    <a href='/personalsettings' className='text-lg font-light'>Datos personales</a>
-                                    <a href='/securitysettings' className='text-lg font-light'>Seguridad</a>
-                                    <a href='/logout' className='text-lg font-light text-red-500'>Cerrar sesión</a>
+                    (JSON.stringify(user) === '{}' && path !== "/login") ? (
+                        <a className="bg-[#470FF4] py-3 px-7" href="/login">
+                            <p className="text-[#fff] font-thin">INICIAR SESIÓN</p>
+                        </a>) : (
+                        (JSON.stringify(user) !== '{}') ? (
+                            <div>
+                                <img onClick={() => (dropped ? setDropped(false) : setDropped(true))} className='h-10 aspect-square' src="/user.png" alt="" />
+                                <div className='absolute top-16 right-14'>
+                                    <div className='relative h-5 w-5 border border-black border-l-0 border-b-0 bg-white z-10 -rotate-45 -bottom-[9.5px] -right-44'></div>
+                                    <div className={dropped ? ' bg-white w-52 h-36  shadow-2xl flex flex-col justify-evenly px-3 text-left border border-black' : 'hidden'}>
+                                        <a href='/personalsettings' className='text-lg font-light'>Datos personales</a>
+                                        <a href='/securitysettings' className='text-lg font-light'>Seguridad</a>
+                                        <a href='/logout' className='text-lg font-light text-red-500'>Cerrar sesión</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    ) : (null)
+                            </div>) : (null)
+                    )
                 }
-
             </div>
         </div>
     )

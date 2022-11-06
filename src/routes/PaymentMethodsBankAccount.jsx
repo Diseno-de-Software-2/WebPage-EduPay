@@ -2,8 +2,22 @@ import TabMenu from "../components/TabMenu"
 import BankAccountForm from "../components/BankAccountForm"
 import BankAccountSelector from "../components/BankAccountSelector"
 import { BankAccountsProvider } from "../contexts/BankAccountsContext"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 function PaymentMethodsBankAccount() {
+
+    const { user } = useContext(UserContext)
+
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        if (JSON.stringify(user) === '{}') {
+            navigate('/login')
+        }
+    }, [])
+
     return (
         <BankAccountsProvider>
             <TabMenu

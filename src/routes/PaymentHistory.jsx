@@ -1,6 +1,20 @@
 import HistorialItem from "../components/HistorialItem"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 function PaymentHistory() {
+
+    const { user } = useContext(UserContext)
+
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        if (JSON.stringify(user) === '{}') {
+            navigate('/login')
+        }
+    }, [])
+
     return (
         <div className='text-center grow my-5'>
             <div className='flex justify-center mb-5'>

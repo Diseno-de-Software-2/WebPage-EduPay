@@ -1,10 +1,24 @@
 import TabMenu from '../components/TabMenu';
 import CreditCartForm from '../components/CreditCartForm';
-import { useContext } from 'react';
 import { CreditCardsProvider } from '../contexts/CreditCardsContext';
 import CreditCardSelector from '../components/CreditCardSelector';
+import { useNavigate } from "react-router-dom"
+import { useEffect, useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 function PaymentMethodsCreditCard() {
+
+    const { user } = useContext(UserContext)
+
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        if (JSON.stringify(user) === '{}') {
+            navigate('/login')
+        }
+    }, [])
+
+
     return (
         <CreditCardsProvider>
             <TabMenu

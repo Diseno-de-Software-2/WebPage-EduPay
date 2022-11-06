@@ -9,7 +9,7 @@ function SearcherCard({ title, description, link, price }) {
                     </div>
                     <div className="text-right flex flex-col justify-between h-full">
                         <h1 className="text-red-500 text-3xl">
-                            {price}
+                            $ {price}
                         </h1>
                         <a className="py-2 px-16 bg-[#470FF4] text-white text-center text-lg" href="/paying/personaldata">Pagar</a>
                     </div>

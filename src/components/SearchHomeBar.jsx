@@ -6,6 +6,20 @@ function SearchHomeBar() {
 
     const { search, setSearch, office, setOffice, officeList, sede, setSede, sedeList } = useContext(SearchContext)
 
+    if (officeList.length === 0 || sedeList.length === 0) {
+        return (
+            <div className="my-10 text-center max-w-[1150px] mx-auto">
+                <h2 className="text-2xl font-thin mb-3">Busca aquí lo qué desees pagar</h2>
+                <div className="flex flex-row items-center justify-center shadow-2xl py-5 px-10 gap-3 ">
+                    <p className="text-xl opacity-70 mr-6 text-red-600">
+                        Ah ocurrido un error al cargar la información, por favor recarga la página
+                    </p>
+                </div>
+            </div>
+        )
+
+    }
+
     return (
         <div className="my-10 text-center max-w-[1150px] mx-auto">
             <h2 className="text-2xl font-thin mb-3">Busca aquí lo qué desees pagar</h2>

@@ -27,10 +27,6 @@ function SearcherFilter() {
         setSelectedOffice(-1)
     }
 
-    // poner los index en -1 cuando no he seleccionado nada
-
-    // debo poner esto en el contexto de search
-
     return (
         <div className='flex flex-col items-center justify-center shadow-2xl w-[300px] py-5'>
             <h2 className='opacity-50 text-lg'>
@@ -39,19 +35,23 @@ function SearcherFilter() {
             <hr className=' bg-[#000] h-[1px] border border-none w-[250px] opacity-50' />
             <ul className='flex flex-col gap-7 mt-5 text-center w-full px-6'>
                 {
-                    officeList.map((item, index) => {
-                        if (item.id_sede == sede) {
-                            return (
-                                <SearcherFilterItem
-                                    key={index}
-                                    title={item.nombre}
-                                    selected={selectedOffice === index}
-                                    handleSelect={handleSelectOffice}
-                                    index={index}
-                                />
-                            )
-                        }
-                    })
+                    (officeList.length > 0) ? (
+                        officeList.map((item, index) => {
+                            if (item.id_sede == sede) {
+                                return (
+                                    <SearcherFilterItem
+                                        key={index}
+                                        title={item.nombre}
+                                        selected={selectedOffice === index}
+                                        handleSelect={handleSelectOffice}
+                                        index={index}
+                                    />
+                                )
+                            }
+                        })
+                    ) : (
+                        <img src="charging.png" alt="" className="animate-spin w-20 h-20 mt-5 mx-auto opacity-70" />
+                    )
 
                 }
 
@@ -62,17 +62,21 @@ function SearcherFilter() {
             <hr className=' bg-[#000] h-[1px] border border-none w-[250px] opacity-50' />
             <ul className='flex flex-col gap-7 mt-5 text-center w-full px-6'>
                 {
-                    sedeList.map((item, index) => {
-                        return (
-                            <SearcherFilterItem
-                                key={index}
-                                title={item.ciudad}
-                                selected={selectedSede === index}
-                                handleSelect={handleSelectSede}
-                                index={index}
-                            />
-                        )
-                    })
+                    (sedeList.length > 0) ? (
+                        sedeList.map((item, index) => {
+                            return (
+                                <SearcherFilterItem
+                                    key={index}
+                                    title={item.ciudad}
+                                    selected={selectedSede === index}
+                                    handleSelect={handleSelectSede}
+                                    index={index}
+                                />
+                            )
+                        })
+                    ) : (
+                        <img src="charging.png" alt="" className="animate-spin w-20 h-20 mt-5 mx-auto opacity-70 mb-5" />
+                    )
 
                 }
 

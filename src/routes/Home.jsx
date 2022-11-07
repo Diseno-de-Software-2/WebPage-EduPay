@@ -19,7 +19,7 @@ function Home() {
     return (
         <div className="mx-14 my-10">
             <h1 className="text-start text-5xl font-bold mr-10 leading-normal w-[600px] ">
-                Bienvenido, José
+                Bienvenido, {user.nombre}
             </h1>
             <div>
                 <div>

@@ -15,7 +15,6 @@ function Searcher() {
     const [filteredServices, setFilteredServices] = useState([])
 
     useEffect(() => {
-        // aqui va lo de buscar todos los servicios y ponerlos, hay que hacer otro para cada que cambie el buscar
         if (office !== "") {
             axios.get(`http://localhost:3000/query/services-${sede}-${office}`)
                 .then(res => {
@@ -51,12 +50,9 @@ function Searcher() {
     }, [sede])
 
     useEffect(() => {
-        const filteredServices = services.filter(service => service.nombre.toLowerCase().includes(search.toLowerCase()))
+        const filteredServices = services.filter(service => (service.nombre.toLowerCase().includes(search.toLowerCase()) || service.descripcion.toLowerCase().includes(search.toLowerCase())))
         setFilteredServices(filteredServices)
     }, [search, sede, office])
-
-    // recordar cambiar las busquedas segun el searcb bar
-
 
     return (
         <>
@@ -67,14 +63,28 @@ function Searcher() {
                     <SearcherSearchBar />
                     <div className="flex flex-col gap-4">
                         {
-                            filteredServices.map((service, index) => {
-                                return <SearcherCard
-                                    key={index}
-                                    title={service.nombre}
-                                    description={service.descripcion}
-                                    price={service.valor}
-                                    link={''} />
-                            })
+                            (services.length > 0) ? (
+                                (filteredServices.length > 0) ?
+                                    (filteredServices.map((service, index) => {
+                                        return <SearcherCard
+                                            key={index}
+                                            title={service.nombre}
+                                            description={service.descripcion}
+                                            price={service.valor}
+                                            link={''} />
+                                    })
+                                    ) : (
+                                        <>
+                                            <img src="magnifier.png" alt="" className="w-20 h-20 opacity-50 mx-auto mt-5" />
+                                            <p className="text-3xl mx-auto opacity-50">
+                                                No se encontraron servicios
+                                            </p>
+                                        </>
+                                    )) : (
+                                <p className="text-3xl mx-auto text-red-400">
+                                    Ah ocurrido un error, por favor intente nuevamente más tarde
+                                </p>
+                            )
                         }
                     </div>
                 </div>

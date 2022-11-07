@@ -6,8 +6,11 @@ import { useContext, useState } from "react"
 import { SearchContext } from "../contexts/SearchContext"
 import axios from 'axios'
 import { useEffect } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 function Searcher() {
+
+    const { token } = useContext(UserContext)
 
     const { search, setSearch, office, setOffice, officeList, sede, setSede, sedeList, setSedeList } = useContext(SearchContext)
 
@@ -16,7 +19,11 @@ function Searcher() {
 
     useEffect(() => {
         if (office !== "") {
-            axios.get(`http://localhost:3000/query/services-${sede}-${office}`)
+            axios.get(`http://localhost:3000/query/services-${sede}-${office}`, {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            })
                 .then(res => {
                     setServices(res.data)
                     setFilteredServices(res.data)
@@ -25,7 +32,11 @@ function Searcher() {
                     console.log(err)
                 })
         } else {
-            axios.get(`http://localhost:3000/query/servicios-${sede}`)
+            axios.get(`http://localhost:3000/query/servicios-${sede}`, {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            })
                 .then(res => {
                     setServices(res.data)
                     setFilteredServices(res.data)
@@ -38,7 +49,11 @@ function Searcher() {
 
     useEffect(() => {
         if (office == "") {
-            axios.get(`http://localhost:3000/query/servicios-${sede}`)
+            axios.get(`http://localhost:3000/query/servicios-${sede}`, {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            })
                 .then(res => {
                     setServices(res.data)
                     setFilteredServices(res.data)
@@ -65,14 +80,15 @@ function Searcher() {
                         {
                             (services.length > 0) ? (
                                 (filteredServices.length > 0) ?
-                                    (filteredServices.map((service, index) => {
-                                        return <SearcherCard
-                                            key={index}
-                                            title={service.nombre}
-                                            description={service.descripcion}
-                                            price={service.valor}
-                                            link={''} />
-                                    })
+                                    (
+                                        filteredServices.map((service, index) => {
+                                            return <SearcherCard
+                                                key={index}
+                                                title={service.nombre}
+                                                description={service.descripcion}
+                                                price={service.valor}
+                                                link={''} />
+                                        })
                                     ) : (
                                         <>
                                             <img src="magnifier.png" alt="" className="w-20 h-20 opacity-50 mx-auto mt-5" />

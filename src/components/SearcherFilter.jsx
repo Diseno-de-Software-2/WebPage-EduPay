@@ -7,7 +7,7 @@ function SearcherFilter() {
     const { sede, setSede, office, setOffice, officeList, sedeList } = useContext(SearchContext)
 
     const [selectedOffice, setSelectedOffice] = useState(-1)
-    const [selectedSede, setSelectedSede] = useState(0)
+    const [selectedSede, setSelectedSede] = useState(sede - 1)
 
 
     const handleSelectOffice = (index) => {
@@ -26,6 +26,10 @@ function SearcherFilter() {
         setOffice("")
         setSelectedOffice(-1)
     }
+
+    useEffect(() => {
+        setSelectedSede(sede - 1)
+    }, [sede])
 
     return (
         <div className='flex flex-col items-center justify-center shadow-2xl w-[300px] py-5'>

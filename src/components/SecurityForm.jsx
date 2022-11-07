@@ -4,7 +4,7 @@ import axios from 'axios'
 
 function SecurityForm() {
 
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, token } = useContext(UserContext)
 
     const [actualPassword, setActualPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
@@ -36,6 +36,8 @@ function SecurityForm() {
         }
         if (actualPassword != user.contraseña) {
             setError('La contraseña actual es incorrecta')
+            console.log(actualPassword)
+            console.log(user.contraseña)
             return false
         }
         return true
@@ -48,6 +50,10 @@ function SecurityForm() {
             axios.post('http://localhost:3000/account/updatepassword', {
                 id: user.id,
                 contraseña: newPassword
+            }, {
+                headers: {
+                    'Authorization': `${token}`
+                }
             }).then(res => {
                 alert('Contraseña actualizada')
                 setUser({

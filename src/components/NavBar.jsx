@@ -33,7 +33,7 @@ function NavBar() {
                             <div>
                                 <img onClick={() => (dropped ? setDropped(false) : setDropped(true))} className='h-10 aspect-square' src="/user.png" alt="" />
                                 <div className='absolute top-16 right-14'>
-                                    <div className='relative h-5 w-5 border border-black border-l-0 border-b-0 bg-white z-10 -rotate-45 -bottom-[9.5px] -right-44'></div>
+                                    <div className={dropped ? 'relative h-5 w-5 border border-black border-l-0 border-b-0 bg-white z-10 -rotate-45 -bottom-[9.5px] -right-44' : 'hidden'}></div>
                                     <div className={dropped ? ' bg-white w-52 h-36  shadow-2xl flex flex-col justify-evenly px-3 text-left border border-black' : 'hidden'}>
                                         <a href='/personalsettings' className='text-lg font-light'>Datos personales</a>
                                         <a href='/securitysettings' className='text-lg font-light'>Seguridad</a>

@@ -1,9 +1,12 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect, useContext } from "react"
+import { UserContext } from "./UserContext"
 import axios from 'axios'
 
 const SearchContext = createContext()
 
 function SearchProvider({ children }) {
+
+    const { user, setUser, token, setToken } = useContext(UserContext)
 
     const [search, setSearch] = useState("")
     const [office, setOffice] = useState("")
@@ -13,20 +16,44 @@ function SearchProvider({ children }) {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3000/query/oficinas')
+        axios.get('http://localhost:3000/query/oficinas', {
+            headers: {
+                'Authorization': `${token}`
+            }
+        })
             .then(res => {
                 setOfficeList(res.data)
             })
             .catch(err => {
-                console.log(err)
+                if (err) {
+                    if (err.response.status == 403) {
+                        if (token != "") {
+                            setUser({})
+                            setToken("")
+                            window.location.href = '/login'
+                        }
+                    } else {
+                        console.log(err)
+                    }
+                }
             })
 
-        axios.get('http://localhost:3000/query/sedes')
+        axios.get('http://localhost:3000/query/sedes', {
+            headers: {
+                'Authorization': `${token}`
+            }
+        })
             .then(res => {
-                setSedeList(res.data)
+                setSedeList(res.data.sort((a, b) => a.id - b.id))
             })
             .catch(err => {
-                console.log(err)
+                if (err.status == 403) {
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('user')
+                    window.location.href = '/login'
+                } else {
+                    console.log(err)
+                }
             })
     }, [])
 
@@ -35,13 +62,6 @@ function SearchProvider({ children }) {
             setSede(sedeList[0].id)
         }
     }, [sedeList])
-
-    useEffect(() => {
-        // if (sedeList.length > 0 && officeList.length > 0) {
-        //     const offices = officeList.filter(office => office.id_sede === sede)
-        //     setOffice(offices[0].nombre)
-        // }
-    }, [sede])
 
     return (
         <SearchContext.Provider value={{ office, setOffice, search, setSearch, officeList, setOfficeList, sede, setSede, sedeList, setSedeList }}>

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 function PersonalInfoForm() {
 
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, token } = useContext(UserContext)
 
     const [name, setName] = useState(user.nombre)
     const [lastName, setLastName] = useState(user.apellidos)
@@ -22,6 +22,10 @@ function PersonalInfoForm() {
                 email: email,
                 id: id,
                 fecha_nacimiento: birth_date
+            }, {
+                headers: {
+                    'Authorization': `${token}`
+                }
             }).then((response) => {
                 alert('Información actualizada')
                 setUser({

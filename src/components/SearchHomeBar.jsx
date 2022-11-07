@@ -29,21 +29,6 @@ function SearchHomeBar() {
                         setSearch(e.target.value)
                     }
                 } value={search} />
-                <select className="h-12 border-2 border-black px-3" name="oficina" id="oficina" onChange={
-                    (e) => {
-                        setOffice(e.target.value)
-                    }
-                }>
-                    {
-                        officeList.map((office, i) => {
-                            if (office.id_sede == sede) {
-                                return (
-                                    <option key={i} value={office.id_sede}>{office.nombre}</option>
-                                )
-                            }
-                        })
-                    }
-                </select>
                 <select className="h-12 border-2 border-black px-3" name="sede" id="sede" onChange={
                     (e) => {
                         setSede(e.target.value)

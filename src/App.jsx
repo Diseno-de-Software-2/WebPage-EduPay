@@ -16,7 +16,6 @@ import Logout from './routes/Logout'
 import { UserProvider } from './contexts/UserContext'
 import { SearchProvider } from './contexts/SearchContext'
 
-
 function App() {
   return (
     <UserProvider>

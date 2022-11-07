@@ -67,7 +67,7 @@ function Searcher() {
     useEffect(() => {
         const filteredServices = services.filter(service => (service.nombre.toLowerCase().includes(search.toLowerCase()) || service.descripcion.toLowerCase().includes(search.toLowerCase())))
         setFilteredServices(filteredServices)
-    }, [search, sede, office])
+    }, [search, sede, office, services])
 
     return (
         <>

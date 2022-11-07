@@ -1,5 +1,6 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
+import axios from 'axios'
 
 function PersonalInfoForm() {
 
@@ -11,12 +12,65 @@ function PersonalInfoForm() {
     const [id, setId] = useState(user.id)
     const [birth_date, setBirthDate] = useState(user.fecha_nacimiento.toString().split('T')[0])
 
-    const handleGuardar = () => {
+    const handleUpdateUser = (e) => {
+        e.preventDefault()
         // enviar a la api de cuentas que no está hecha
+        if (validateForm()) {
+            axios.post('http://localhost:3000/account/updateinfo', {
+                nombre: name,
+                apellidos: lastName,
+                email: email,
+                id: id,
+                fecha_nacimiento: birth_date
+            }).then((response) => {
+                alert('Información actualizada')
+                setUser({
+                    nombre: name,
+                    apellidos: lastName,
+                    email: email,
+                    id: id,
+                    fecha_nacimiento: birth_date
+                })
+            }).catch((error) => {
+                alert('Error al actualizar usuario')
+            })
+        } else {
+            alert('Hay campos vacíos o con formato incorrecto')
+        }
+    }
+
+    const validateForm = () => {
+        // validar que los campos no estén vacíos
+        if (name === '' || lastName === '' || email === '' || id === '' || birth_date === '') {
+            return false
+        }
+        // validar que el email sea válido
+        if (!email.includes('@') || !email.includes('.')) {
+            return false
+        }
+        // validar que la fecha de nacimiento sea válida
+        if (birth_date.split('-').length !== 3) {
+            return false
+        }
+        // validar que la fecha de nacimiento sea menor a la actual
+        const today = new Date()
+        const birthDate = new Date(birth_date)
+        if (birthDate > today) {
+            return false
+        }
+        // validar que el nombre y apellido no tengan números
+        if (name.match(/\d/) || lastName.match(/\d/)) {
+            return false
+        }
+        // validar que el id no esté vacío y que sea un número
+        if (id === '' || isNaN(id)) {
+            return false
+        }
+        return true
     }
 
     return (
-        <form action="" className="flex flex-col gap-3 w-[380px]">
+        <form action="" className="flex flex-col gap-3 w-[380px]" onSubmit={handleUpdateUser}>
             <div className="flex gap-3">
                 <div>
                     <label className="block" htmlFor="nombre">Nombre</label>

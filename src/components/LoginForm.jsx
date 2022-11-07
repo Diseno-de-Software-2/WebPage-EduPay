@@ -33,17 +33,20 @@ function LoginForm() {
                 }
             })
             .catch(({ response }) => {
-                switch (response.status) {
-                    case 400:
-                        setError(response.data)
-                        break;
+                if (response) {
+                    switch (response.status) {
+                        case 400:
+                            setError(response.data)
+                            break;
 
-                    default:
-                        setError('Ocurrió un error inesperado, por favor intente más tarde')
-                        break;
+                        default:
+                            setError('Ocurrió un error inesperado, por favor intente más tarde')
+                            break;
+                    }
+                } else {
+                    setError('Ocurrió un error inesperado, por favor intente más tarde')
                 }
             });
-
     }
 
     return (
@@ -66,7 +69,7 @@ function LoginForm() {
                 } required />
                 {
                     (error !== '') ? (
-                        <p className='text-red-500 text-sm'>{error}</p>
+                        <p className='text-red-500 text-base'>{error}</p>
                     ) : (null)
                 }
                 <button className='h-14 my-5 bg-[#470FF4] text-white text-2xl' type='submit'>

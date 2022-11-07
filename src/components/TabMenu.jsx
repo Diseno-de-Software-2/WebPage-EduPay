@@ -13,14 +13,14 @@ function TabMenu({ children, tabs, selected }) {
                     tabs.map((tab, index) => (
                         (index === selected) ?
                             (
-                                <div className='px-5 py-3 h-full ml-6 drop-shadow-xl bg-white'>
+                                <div className='px-5 py-3 h-full ml-6 drop-shadow-xl bg-white' key={index}>
                                     <p className='text-xl opacity-50'>{tab.title}</p>
                                 </div>
                             )
                             :
                             (
 
-                                <a className='p-5 h-full ml-6' href={tab.link}>
+                                <a className='p-5 h-full ml-6' href={tab.link} key={index}>
                                     <p className='text-xl opacity-50'>{tab.title}</p>
                                 </a>
                             )

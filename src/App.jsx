@@ -12,6 +12,7 @@ import SecuritySettings from './routes/SecuritySettings'
 import Searcher from './routes/Searcher'
 import Paying from './routes/Paying'
 import ProcessingPayment from './routes/ProcessingPayment'
+import Logout from './routes/Logout'
 import { UserProvider } from './contexts/UserContext'
 import { SearchProvider } from './contexts/SearchContext'
 
@@ -37,6 +38,7 @@ function App() {
               <Route path='/paying/paymentmethod' element={<Paying />} />
               <Route path='/paying/confirmation' element={<Paying />} />
               <Route path='/processingpayment' element={<ProcessingPayment />} />
+              <Route path='/logout' element={<Logout />} />
             </Routes>
             <Footer />
           </Router>

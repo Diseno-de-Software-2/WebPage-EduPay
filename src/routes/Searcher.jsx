@@ -87,7 +87,9 @@ function Searcher() {
                                                 title={service.nombre}
                                                 description={service.descripcion}
                                                 price={service.valor}
-                                                link={''} />
+                                                link={''}
+                                                oficina={service.nombre_oficina}
+                                                sede={service.id_sede} />
                                         })
                                     ) : (
                                         <>

@@ -15,33 +15,35 @@ import ProcessingPayment from './routes/ProcessingPayment'
 import Logout from './routes/Logout'
 import { UserProvider } from './contexts/UserContext'
 import { SearchProvider } from './contexts/SearchContext'
-
+import { PayingProvider } from './contexts/PayingContext'
 function App() {
   return (
     <UserProvider>
       <SearchProvider>
-        <div className='font-RobotoSlab min-h-screen flex flex-col justify-between'>
-          <Router>
-            <NavBar />
-            <Routes>
-              <Route path='/' element={<LandingPage />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/home' element={<Home />} />
-              <Route path='/searcher' element={<Searcher />} />
-              <Route path='/paymenthistory' element={<PaymentHistory />} />
-              <Route path='/personalsettings' element={<PersonalSettings />} />
-              <Route path='/paymentmethods/creditcards' element={<PaymentMethodsCreditCard />} />
-              <Route path='/paymentmethods/bankaccounts' element={<PaymentMethodsBankAccount />} />
-              <Route path='/securitysettings' element={<SecuritySettings />} />
-              <Route path='/paying/personaldata' element={<Paying />} />
-              <Route path='/paying/paymentmethod' element={<Paying />} />
-              <Route path='/paying/confirmation' element={<Paying />} />
-              <Route path='/processingpayment' element={<ProcessingPayment />} />
-              <Route path='/logout' element={<Logout />} />
-            </Routes>
-            <Footer />
-          </Router>
-        </div>
+        <PayingProvider>
+          <div className='font-RobotoSlab min-h-screen flex flex-col justify-between'>
+            <Router>
+              <NavBar />
+              <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/home' element={<Home />} />
+                <Route path='/searcher' element={<Searcher />} />
+                <Route path='/paymenthistory' element={<PaymentHistory />} />
+                <Route path='/personalsettings' element={<PersonalSettings />} />
+                <Route path='/paymentmethods/creditcards' element={<PaymentMethodsCreditCard />} />
+                <Route path='/paymentmethods/bankaccounts' element={<PaymentMethodsBankAccount />} />
+                <Route path='/securitysettings' element={<SecuritySettings />} />
+                <Route path='/paying/personaldata' element={<Paying />} />
+                <Route path='/paying/paymentmethod' element={<Paying />} />
+                <Route path='/paying/confirmation' element={<Paying />} />
+                <Route path='/processingpayment' element={<ProcessingPayment />} />
+                <Route path='/logout' element={<Logout />} />
+              </Routes>
+              <Footer />
+            </Router>
+          </div>
+        </PayingProvider>
       </SearchProvider>
     </UserProvider>
   )

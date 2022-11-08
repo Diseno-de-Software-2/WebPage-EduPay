@@ -9,7 +9,7 @@ function PayingInfoCard({ title, price, description }) {
             <h1 className='text-red-600 text-6xl'>
                 {'$' + price}
             </h1>
-            <p className='text-left opacity-50'>
+            <p className='opacity-50 text-center'>
                 {description}
             </p>
         </div>

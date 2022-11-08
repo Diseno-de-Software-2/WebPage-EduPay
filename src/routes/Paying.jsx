@@ -4,8 +4,15 @@ import PayingProgressBar from "../components/PayingProgressBar"
 import PayingResume from "../components/PayingResume"
 import HelpButton from "../components/HelpButton"
 import PayingPaymentMethod from "../components/PayingPaymentMethod"
+import { useContext } from "react"
+import { PayingContext } from "../contexts/PayingContext"
+import { SearchContext } from "../contexts/SearchContext"
+import { Link } from "react-router-dom"
 
 function Paying() {
+
+    const { personalData, paymentMethod, service } = useContext(PayingContext)
+    const { sedeList } = useContext(SearchContext)
 
     // get step from url
     const url = window.location.pathname.split('/')[2]
@@ -15,6 +22,32 @@ function Paying() {
         var step = 2
     } else if (url === 'confirmation') {
         var step = 3
+    }
+
+    if (JSON.stringify(service) == "{}") {
+
+        return (
+            <div className="flex flex-col items-center justify-center h-full w-full">
+                <h1 className="text-2xl font-bold">
+                    El proceso de pago ha sido interrunpido,
+                    por favor vuelva a intentarlo.
+                </h1>
+                <Link to="/searcher" className="
+                    mt-10
+                    bg-red-500
+                    hover:bg-red-600
+                    text-white
+                    py-2
+                    px-4
+                    text-xl
+                    focus:outline-none
+                    focus:shadow-outline
+                ">
+                    Volver al buscador
+                </Link>
+            </div>
+        )
+
     }
 
     return (
@@ -29,7 +62,7 @@ function Paying() {
                     }
 
                 </div>
-                <PayingInfoCard title={'Certificado de estudio'} price={'28000'} description={'Expedido por la oficina de registro'} />
+                <PayingInfoCard title={service.title} price={service.price} description={'Expedido por la oficina de ' + service.oficina + " en " + sedeList[service.sede - 1].ciudad} />
                 <HelpButton />
             </div>
         </>

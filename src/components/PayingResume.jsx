@@ -1,10 +1,18 @@
 import PayingConfirmButton from "./PayingConfirmButton"
+import { PayingContext } from "../contexts/PayingContext"
+import { UserContext } from "../contexts/UserContext"
+import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+
 
 function PayingResume({ nombre, id, paymentmethod, number }) {
 
+    const { personalData, paymentMethod } = useContext(PayingContext)
+
+    let navigate = useNavigate()
+
     const handleNext = () => {
-        // go to url /processingpayment
-        window.location.href = '/processingpayment'
+        navigate('/processingpayment')
     }
 
     return (
@@ -17,7 +25,7 @@ function PayingResume({ nombre, id, paymentmethod, number }) {
                     Datos personales
                 </h2>
                 <p className='text-lg'>
-                    {nombre + ' - ' + id}
+                    {personalData.nombre + ' - ' + personalData.id}
                 </p>
                 <h2 className='mt-4 text-xl font-bold'>
                     Datos de pago

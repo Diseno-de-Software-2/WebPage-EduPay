@@ -5,17 +5,20 @@ import PayingConfirmButton from "./PayingConfirmButton"
 import PayingBankAccountSaved from "./PayingBankAccountSaved"
 import PayingBankAccountForm from "./PayingBankAccountForm"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function PayingPaymentMethod() {
 
     const [method, setMethod] = useState('creditcard')
+
+    let navigate = useNavigate()
 
     const handleSelect = (method) => {
         setMethod(method)
     }
 
     const handleNext = () => {
-        window.location.href = '/paying/confirmation'
+        navigate('/paying/confirmation')
     }
 
     return (

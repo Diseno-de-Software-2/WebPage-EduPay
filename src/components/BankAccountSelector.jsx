@@ -1,10 +1,10 @@
 import BankAccoundCard from "./BankAccoundCard"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { BankAccountsContext } from "../contexts/BankAccountsContext"
 
 function BankAccountSelector() {
 
-    const { setSelected, setCreate, selected } = useContext(BankAccountsContext)
+    const { setSelected, setCreate, selected, bankAccounts } = useContext(BankAccountsContext)
 
     const handleClick = () => {
         setCreate(true)
@@ -14,11 +14,11 @@ function BankAccountSelector() {
     return (
         <div className="flex flex-col gap-3">
             {
-                [1, 2, 3].map((item, index) => (
+                bankAccounts.map((item, index) => (
                     <BankAccoundCard
                         key={index}
-                        number={item}
-                        bank="Banco 1"
+                        number={item.numero}
+                        bank={item.banco}
                         index={index}
                     />
                 ))

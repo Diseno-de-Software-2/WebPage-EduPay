@@ -12,7 +12,7 @@ function CreditCartForm() {
 
     const { user, token } = useContext(UserContext)
 
-    const { create, edit, setCreate, setEdit, selected, creditCards, setSelected } = useContext(CreditCardsContext)
+    const { create, edit, setCreate, setEdit, selected, creditCards, setSelected, error } = useContext(CreditCardsContext)
 
     const [cardNumber, setCardNumber] = useState('')
     const [cardName, setCardName] = useState('')
@@ -123,7 +123,7 @@ function CreditCartForm() {
             }
         }).then((response) => {
             alert('Tarjeta eliminada con éxito')
-            setSelected(0)
+            setSelected(-1)
         }).catch((error) => {
             alert('Error al eliminar la tarjeta')
         })
@@ -136,6 +136,13 @@ function CreditCartForm() {
         edit: edit,
         create: create
     }
+
+    if (error) {
+        return <h1>
+            {error}
+        </h1>
+    }
+
     return (
         <div>
             <TitlePaymentForm {...propsTitle} />

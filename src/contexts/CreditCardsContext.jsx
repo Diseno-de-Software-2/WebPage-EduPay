@@ -30,12 +30,12 @@ function CreditCardsProvider({ children }) {
                 }
             })
             .catch(err => {
-                setError('Un error inesperado ha ocurrido')
+                setError('Un error inesperado ha ocurrido, por favor intente de nuevo')
             })
     }, [])
 
     useEffect(() => {
-        if (selected != -1) {
+        if (selected != -1 || (selected == -1 && !create)) {
             axios.get(`http://localhost:3000/query/tarjetas-${user.id}`, {
                 headers: {
                     'Authorization': `${token}`
@@ -47,6 +47,7 @@ function CreditCardsProvider({ children }) {
                     } else {
                         setSelected(-1)
                         setCreate(true)
+                        setCreditCards([])
                     }
                 })
                 .catch(err => {

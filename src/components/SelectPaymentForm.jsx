@@ -1,16 +1,16 @@
 import React from 'react'
 
-function SelectPaymentForm({ options, blocked }) {
+function SelectPaymentForm({ label, options, blocked, value, onChange }) {
     return (
         <div>
-            <label className='block' htmlFor="banco">Banco</label>
+            <label className='block' htmlFor={label}>{label}</label>
             <select className='
                 w-auto
                 border
                 border-gray-300
                 px-2
                 h-[35px]
-            ' name="banco" id="banco" disabled={blocked}>
+            ' name={label} id={label} disabled={blocked} value={value} onChange={onChange}>
                 {options.map((option, index) => (
                     <option key={index} value={option.value}>{option.label}</option>
                 ))}

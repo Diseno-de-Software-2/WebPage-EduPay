@@ -21,8 +21,10 @@ function CreditCardCard({ number, mark, index }) {
     }
 
     const handleSelect = () => {
+        if (selected === -1) {
+            setCreate(false)
+        }
         setSelected(index)
-        setCreate(false)
         setEdit(false)
     }
 

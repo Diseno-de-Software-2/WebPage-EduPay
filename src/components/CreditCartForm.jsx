@@ -2,23 +2,112 @@ import TitlePaymentForm from "./TitlePaymentForm"
 import InputPaymentForm from "./InputPaymentForm"
 import SelectPaymentForm from "./SelectPaymentForm"
 import ConsultButtonPaymentForm from "./ConsultButtonPaymentForm"
-import { useContext } from "react"
+import { useContext, useState, useEffect } from "react"
 import { CreditCardsContext } from "../contexts/CreditCardsContext"
 import ConfirmButtonsPayment from "./ConfirmButtonsPayment"
+import axios from 'axios'
+import { UserContext } from "../contexts/UserContext"
 
 function CreditCartForm() {
-    const { create, edit, setCreate, setEdit } = useContext(CreditCardsContext)
+
+    const { user, token } = useContext(UserContext)
+
+    const { create, edit, setCreate, setEdit, selected, creditCards, setSelected } = useContext(CreditCardsContext)
+
+    const [cardNumber, setCardNumber] = useState('')
+    const [cardName, setCardName] = useState('')
+    const [cardDate, setCardDate] = useState('')
+    const [cardCvv, setCardCvv] = useState('')
+    const [cardProveedor, setCardProveedor] = useState('')
+
+    useEffect(() => {
+        if (selected !== -1 && creditCards.length > 0) {
+            console.log(creditCards)
+            setCardNumber(creditCards[selected].numero)
+            setCardName(creditCards[selected].nombre_titular)
+            setCardDate(creditCards[selected].fecha_expiracion.toString().split('T')[0])
+            setCardCvv(creditCards[selected].cvv)
+            setCardProveedor(creditCards[selected].proveedor)
+        } else {
+            setCardNumber('')
+            setCardName('')
+            setCardDate('')
+            setCardCvv('')
+            setCardProveedor('')
+        }
+    }, [create, selected, creditCards])
 
     const handleCancel = (e) => {
         e.preventDefault()
-        setCreate(false)
-        setEdit(false)
+        if (selected != -1) {
+            setCreate(false)
+            setEdit(false)
+        } else {
+            if (creditCards.length > 0) {
+                setCreate(false)
+                setSelected(0)
+            }
+        }
+    }
+
+    const validateData = () => {
+        if (cardNumber.length != 16) {
+            alert('El número de tarjeta debe tener 16 dígitos')
+            return false
+        }
+        if (cardName.length < 3) {
+            alert('El nombre debe tener al menos 3 caracteres')
+            return false
+        }
+        if (cardDate.length < 5) {
+            alert('La fecha debe tener 5 caracteres')
+            return false
+        }
+        if (cardCvv.length != 3) {
+            alert('El CVV debe tener 3 caracteres')
+            return false
+        }
+        if (cardProveedor.length < 3) {
+            alert('Debe seleccionar un proveedor')
+            return false
+        }
+
+        for (let i = 0; i < creditCards.length; i++) {
+            if (creditCards[i].cardNumber == cardNumber) {
+                alert('Ya existe una tarjeta con ese número')
+                return false
+            }
+        }
+        return true
     }
 
     const handleSave = (e) => {
         e.preventDefault()
-        setCreate(false)
-        setEdit(false)
+        if (validateData()) {
+            if (selected == -1) {
+                axios.post('http://localhost:3000/account/addtarjeta', {
+                    id: user.id,
+                    numero: cardNumber,
+                    nombre_titular: cardName,
+                    fecha_expiracion: cardDate,
+                    cvv: cardCvv,
+                    proveedor: cardProveedor
+                }, {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                }).then((response) => {
+                    alert('Tarjeta agregada con éxito')
+                    setCreate(false)
+                    setSelected(0)
+                }).catch((error) => {
+                    alert('Error al agregar la tarjeta')
+                })
+            }
+        }
+
+        // comprobar que la tarjeta existe y en el then entonces enviarla a mi api
+
     }
 
     const handleEdit = (e) => {
@@ -26,7 +115,18 @@ function CreditCartForm() {
     }
 
     const handleDelete = (e) => {
-
+        axios.post(`http://localhost:3000/account/deletetarjeta`, {
+            id: creditCards[selected].id,
+        }, {
+            headers: {
+                'Authorization': `${token}`
+            }
+        }).then((response) => {
+            alert('Tarjeta eliminada con éxito')
+            setSelected(0)
+        }).catch((error) => {
+            alert('Error al eliminar la tarjeta')
+        })
     }
 
     const propsTitle = {
@@ -41,18 +141,41 @@ function CreditCartForm() {
             <TitlePaymentForm {...propsTitle} />
             <form action="">
                 <div className="flex flex-col gap-3">
-                    <InputPaymentForm label="Número" type="number" name="numero" id="numero" blocked={!create && !edit} />
-                    <InputPaymentForm label="Nombre" type="text" name="nombre" id="nombre" blocked={!create && !edit} />
-                    <InputPaymentForm label="Nombre" type="text" name="nombre" id="nombre" blocked={!create && !edit} />
+                    <InputPaymentForm label="Número" type="number" name="numero" id="numero" blocked={!create && !edit} value={cardNumber} onChange={
+                        (e) => {
+                            setCardNumber(e.target.value)
+                        }
+                    } />
+                    <InputPaymentForm label="Nombre" type="text" name="nombre" id="nombre" blocked={!create && !edit} value={cardName} onChange={
+                        (e) => {
+                            setCardName(e.target.value)
+                        }
+                    } />
                     <div className="flex gap-3">
-                        <InputPaymentForm label="Fecha de expiración" type="text" name="fecha" id="fecha" blocked={!create && !edit} />
-                        <InputPaymentForm label="Código de seguridad" type="number" name="codigo" id="codigo" blocked={!create && !edit} />
+                        <InputPaymentForm label="Fecha de expiración" type="date" name="fecha" id="fecha" blocked={!create && !edit} value={cardDate} onChange={
+                            (e) => {
+                                setCardDate(e.target.value)
+                            }
+                        } />
+                        <InputPaymentForm label="Código de seguridad" type="number" name="codigo" id="codigo" blocked={!create && !edit} value={cardCvv} onChange={
+                            (e) => {
+                                setCardCvv(e.target.value)
+                            }
+                        } />
                         <SelectPaymentForm
+                            label="Proveedor"
                             options={[
-                                { value: '1', label: 'Banco 1' },
-                                { value: '2', label: 'Banco 2' },
+                                { value: 'Visa', label: 'Visa' },
+                                { value: 'Mastercard', label: 'Mastercard' },
+                                { value: 'American Express', label: 'American Express' },
                             ]}
                             blocked={!create && !edit}
+                            value={cardProveedor}
+                            onChange={
+                                (e) => {
+                                    setCardProveedor(e.target.value)
+                                }
+                            }
                         />
                     </div>
                     <div className={

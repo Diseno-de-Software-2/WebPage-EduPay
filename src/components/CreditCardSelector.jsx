@@ -1,21 +1,33 @@
 import CreditCardCard from "./CreditCardCard"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CreditCardsContext } from "../contexts/CreditCardsContext"
 
 function CreditCardSelector() {
 
-    const { setSelected, setCreate, selected } = useContext(CreditCardsContext)
+    const { setSelected, setCreate, selected, creditCards } = useContext(CreditCardsContext)
 
     const handleCreate = () => {
         setCreate(true)
         setSelected(-1)
     }
 
-    const cardsLenght = 3
+    const [cardsLenght, setCardsLenght] = useState(creditCards.length)
+
+    useEffect(() => {
+        setCardsLenght(creditCards.length)
+    }, [creditCards])
+
 
     return (
         <div className={`w-[300px]`} style={{ height: `calc(60px * ${cardsLenght} + 200px)` }}>
-            <CreditCardCard
+            {
+                creditCards.map((card, index) => {
+                    return <CreditCardCard key={index} number={card.numero}
+                        mark={card.proveedor}
+                        index={index} />
+                })
+            }
+            {/* <CreditCardCard
                 number={1234567894789520}
                 mark="Visa"
                 index={0}
@@ -29,7 +41,7 @@ function CreditCardSelector() {
                 number={1234567894789520}
                 mark="American Express"
                 index={2}
-            />
+            /> */}
             <div className="absolute flex flex-col items-center justify-center w-[300px] h-[200px] bg-[#D9D9D9] p-2 shadow-2xl rounded-md hover:cursor-pointer"
                 style={{ marginTop: cardsLenght * 60 + 'px', left: selected === -1 ? '100px' : '' }}
                 onClick={handleCreate}

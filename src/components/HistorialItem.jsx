@@ -1,6 +1,6 @@
 import React from 'react'
 
-function HistorialItem({ concepto, precio, fecha, medio, numero }) {
+function HistorialItem({ concepto, precio, fecha, medio }) {
     return (
         <div>
             <div className='flex justify-between text-start my-2'>
@@ -16,11 +16,8 @@ function HistorialItem({ concepto, precio, fecha, medio, numero }) {
                     </p>
                 </div>
                 <div className='text-end'>
-                    <p>
+                    <p className='w-52 text-right'>
                         {medio}
-                    </p>
-                    <p>
-                        {numero}
                     </p>
                 </div>
             </div>

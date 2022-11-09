@@ -6,7 +6,7 @@ function ConsultButtonPaymentForm() {
             flex
             items-center
             justify-center
-            w-auto
+            w-52
             bg-[#0E7C7B]
             text-white
             cursor-pointer

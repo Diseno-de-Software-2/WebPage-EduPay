@@ -18,7 +18,8 @@ function CreditCartForm() {
     const [cardName, setCardName] = useState('')
     const [cardDate, setCardDate] = useState('')
     const [cardCvv, setCardCvv] = useState('')
-    const [cardProveedor, setCardProveedor] = useState('')
+    const [cardProveedor, setCardProveedor] = useState('Visa')
+    const [cardCredit, setCardCredit] = useState('')
 
     useEffect(() => {
         if (selected !== -1 && creditCards.length > 0) {
@@ -33,7 +34,7 @@ function CreditCartForm() {
             setCardName('')
             setCardDate('')
             setCardCvv('')
-            setCardProveedor('')
+            setCardProveedor('Visa')
         }
     }, [create, selected, creditCards])
 
@@ -97,17 +98,16 @@ function CreditCartForm() {
                         'Authorization': `${token}`
                     }
                 }).then((response) => {
-                    alert('Tarjeta agregada con éxito')
-                    setCreate(false)
-                    setSelected(0)
+                    alert(response.data)
+                    if (response.data == 'Tarjeta agregada') {
+                        setCreate(false)
+                        setSelected(0)
+                    }
                 }).catch((error) => {
                     alert('Error al agregar la tarjeta')
                 })
             }
         }
-
-        // comprobar que la tarjeta existe y en el then entonces enviarla a mi api
-
     }
 
     const handleEdit = (e) => {
@@ -129,6 +129,22 @@ function CreditCartForm() {
         })
     }
 
+    const handleConsult = (e) => {
+        e.preventDefault()
+        axios.get(`http://localhost:3000/balance/credito-tarjeta-${cardNumber}`, {
+            headers: {
+                'Authorization': `${token}`
+            }
+        }).then((response) => {
+            if (response) {
+                setCardCredit(response.data.credito)
+            }
+        }).catch((error) => {
+            console.log(error)
+            alert('Error al consultar el saldo')
+        })
+    }
+
     const propsTitle = {
         title: 'Información de la tarjeta',
         handleEdit: handleEdit,
@@ -138,7 +154,7 @@ function CreditCartForm() {
     }
 
     if (error) {
-        return <h1>
+        return <h1 className="text-red-600 text-xl">
             {error}
         </h1>
     }
@@ -190,8 +206,8 @@ function CreditCartForm() {
                             'invisible flex items-end gap-3' :
                             'flex items-end gap-3'
                     }>
-                        <InputPaymentForm label="Saldo" type="text" name="saldo" id="saldo" blocked={true} />
-                        <ConsultButtonPaymentForm />
+                        <InputPaymentForm label="Saldo" type="text" name="saldo" id="saldo" blocked={true} value={cardCredit} />
+                        <ConsultButtonPaymentForm handleConsult={handleConsult} />
                     </div>
                     <ConfirmButtonsPayment handleCancel={handleCancel} handleSave={handleSave} create={create} edit={edit} />
                 </div>

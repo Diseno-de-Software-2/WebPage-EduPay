@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ConsultButtonPaymentForm() {
+function ConsultButtonPaymentForm({ handleConsult }) {
     return (
         <div className='
             flex
@@ -15,7 +15,7 @@ function ConsultButtonPaymentForm() {
             font-thin
             hover:bg-[#0A6160]
         '>
-            <button type="submit">Consultar saldo</button>
+            <button type="submit" onClick={handleConsult}>Consultar saldo</button>
         </div>
     )
 }

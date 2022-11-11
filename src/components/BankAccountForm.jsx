@@ -18,6 +18,7 @@ function BankAccountForm() {
     const [bankName, setBankName] = useState('')
     const [bankEmail, setBankEmail] = useState('')
     const [bankType, setBankType] = useState('')
+    const [bankBalance, setBankBalance] = useState('')
 
     useEffect(() => {
         if (selected !== -1 && bankAccounts.length > 0) {
@@ -87,18 +88,35 @@ function BankAccountForm() {
                 headers: {
                     'Authorization': `${token}`
                 }
-            }).then(res => {
-                alert('Cuenta agregada con éxito')
-                setCreate(false)
-                setSelected(0)
+            }).then(response => {
+                alert(response.data)
+                if (response.data === 'Cuenta agregada') {
+                    setCreate(false)
+                    setSelected(0)
+                }
             }).catch(err => {
+                console.log(err)
                 alert('Error al agregar cuenta')
             })
         }
-
-        // comporobar que la cuenta existe en el banco
-
     }
+
+    const handleConsult = (e) => {
+        e.preventDefault()
+        axios.get(`http://localhost:3000/balance/saldo-cuenta-${bankNumber}`, {
+            headers: {
+                'Authorization': `${token}`
+            }
+        }).then(res => {
+            if (res) {
+
+                setBankBalance(res.data.saldo)
+            }
+        }).catch(err => {
+            alert('Error al consultar saldo')
+        })
+    }
+
 
     const handleEdit = (e) => {
         setEdit(true)
@@ -130,7 +148,7 @@ function BankAccountForm() {
     }
 
     if (error) {
-        return <h1>
+        return <h1 className="text-red-600 text-xl">
             {error}
         </h1>
     }
@@ -175,8 +193,8 @@ function BankAccountForm() {
                                 'invisible flex items-end gap-3' :
                                 'flex items-end gap-3'
                         }>
-                            <InputPaymentForm label="Saldo" type="text" name="saldo" id="saldo" blocked={true} />
-                            <ConsultButtonPaymentForm />
+                            <InputPaymentForm label="Saldo" type="text" name="saldo" id="saldo" blocked={true} value={bankBalance} />
+                            <ConsultButtonPaymentForm handleConsult={handleConsult} />
                         </div>
 
                     </div>

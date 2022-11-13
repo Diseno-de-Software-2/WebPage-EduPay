@@ -1,6 +1,5 @@
 import PayingConfirmButton from "./PayingConfirmButton"
 import { PayingContext } from "../contexts/PayingContext"
-import { UserContext } from "../contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import { useContext } from "react"
 
@@ -13,6 +12,10 @@ function PayingResume({ nombre, id, paymentmethod, number }) {
 
     const handleNext = () => {
         navigate('/processingpayment')
+    }
+
+    const handleCancel = () => {
+        navigate('/searcher')
     }
 
     return (
@@ -31,10 +34,10 @@ function PayingResume({ nombre, id, paymentmethod, number }) {
                     Datos de pago
                 </h2>
                 <p className='text-lg'>
-                    {paymentmethod + ' - ' + number}
+                    {(paymentMethod.tarjeta) ? (paymentMethod.proveedor) : (paymentMethod.banco) + ' - ' + paymentMethod.numero}
                 </p>
             </div>
-            <PayingConfirmButton handleNext={handleNext} />
+            <PayingConfirmButton handleNext={handleNext} handleCancel={handleCancel} />
         </div>
     )
 }

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom"
 function Paying() {
 
     const { personalData, paymentMethod, service } = useContext(PayingContext)
-    const { sedeList } = useContext(SearchContext)
+    const { sedeList, officeList } = useContext(SearchContext)
 
     // get step from url
     const url = window.location.pathname.split('/')[2]
@@ -50,6 +50,10 @@ function Paying() {
 
     }
 
+    console.log("service", service)
+    console.log("sedeList", sedeList)
+    console.log("officeList", officeList)
+
     return (
         <>
             <div className="relative flex gap-10 justify-center items-start my-5 min-h-screen">
@@ -63,6 +67,7 @@ function Paying() {
 
                 </div>
                 <PayingInfoCard title={service.title} price={service.price} description={'Expedido por la oficina de ' + service.oficina + " en " + sedeList[service.sede - 1].ciudad} />
+                {/* sedeList[service.sede - 1].ciudad */}
                 <HelpButton />
             </div>
         </>

@@ -23,7 +23,6 @@ function CreditCartForm() {
 
     useEffect(() => {
         if (selected !== -1 && creditCards.length > 0) {
-            console.log(creditCards)
             setCardNumber(creditCards[selected].numero)
             setCardName(creditCards[selected].nombre_titular)
             setCardDate(creditCards[selected].fecha_expiracion.toString().split('T')[0])
@@ -137,10 +136,13 @@ function CreditCartForm() {
             }
         }).then((response) => {
             if (response) {
-                setCardCredit(response.data.credito)
+                if (response.data == 'Consultas deshabilitadas') {
+                    alert(response.data)
+                } else {
+                    setCardCredit(response.data.credito)
+                }
             }
         }).catch((error) => {
-            console.log(error)
             alert('Error al consultar el saldo')
         })
     }

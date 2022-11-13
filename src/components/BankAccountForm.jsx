@@ -109,8 +109,11 @@ function BankAccountForm() {
             }
         }).then(res => {
             if (res) {
-
-                setBankBalance(res.data.saldo)
+                if (res.data == 'Consultas deshabilitadas') {
+                    alert(res.data)
+                } else {
+                    setBankBalance(res.data.saldo)
+                }
             }
         }).catch(err => {
             alert('Error al consultar saldo')

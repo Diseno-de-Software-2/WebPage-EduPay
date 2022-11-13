@@ -2,10 +2,9 @@ import SearcherHeader from "../components/SearcherHeader"
 import SearcherFilter from "../components/SearcherFilter"
 import SearcherSearchBar from "../components/SearcherSearchBar"
 import SearcherCard from "../components/SearcherCard"
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import { SearchContext } from "../contexts/SearchContext"
 import axios from 'axios'
-import { useEffect } from "react"
 import { UserContext } from "../contexts/UserContext"
 
 function Searcher() {
@@ -69,6 +68,7 @@ function Searcher() {
         setFilteredServices(filteredServices)
     }, [search, sede, office, services])
 
+
     return (
         <>
             <SearcherHeader />
@@ -88,7 +88,7 @@ function Searcher() {
                                                 description={service.descripcion}
                                                 price={service.valor}
                                                 link={''}
-                                                oficina={service.nombre_oficina}
+                                                oficina={service.nombre}
                                                 sede={service.id_sede} />
                                         })
                                     ) : (

@@ -19,13 +19,33 @@ function PayingForm() {
         }
     }, [])
 
+    const validateData = () => {
+        if (personalData.nombre.lenght < 3) {
+            return false
+        }
+        if (personalData.apellidos < 3) {
+            return false
+        }
+        if (personalData.id.lenght < 1) {
+            return false
+        }
+        if (!personalData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+            return false
+        }
+        return true
+    }
+
     const handleNext = (e) => {
         e.preventDefault();
-        navigate('/paying/paymentmethod')
+        if (validateData()) {
+            navigate('/paying/paymentmethod')
+        } else {
+            alert("Datos incorrectos")
+        }
     }
 
     const handleCancel = () => {
-        console.log('cancel')
+        navigate('/searcher')
     }
 
     return (

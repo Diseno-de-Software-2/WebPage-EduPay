@@ -42,7 +42,6 @@ function BankAccountsProvider({ children }) {
                 }
             })
                 .then(res => {
-                    console.log("hola")
                     if (res.data !== 'Empty result') {
                         setBankAccounts(res.data)
                     } else {

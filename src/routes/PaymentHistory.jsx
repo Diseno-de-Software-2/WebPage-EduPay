@@ -58,9 +58,10 @@ function PaymentHistory() {
             <div className='flex flex-col h-auto w-[1000px] shadow-2xl mx-auto p-5'>
                 {
                     payments.map(payment => {
-                        return <HistorialItem key={payment.id} concepto={payment.servicio} fecha={payment.fecha} precio={payment.precio} medio={payment.metodo_pago} />
+                        return <HistorialItem key={payment.id} concepto={payment.servicio} fecha={payment.fecha} precio={payment.precio} medio={payment.metodo_pago + ' | ' + payment.cuotas + " cuotas"} />
                     })
                 }
+                {/* <HistorialItem concepto='Pago de servicio' fecha='2021-10-10' precio='1000' medio='Visa 1568 | 6 Cuotas' /> */}
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import InputPaymentForm from './InputPaymentForm'
 import SelectPaymentForm from './SelectPaymentForm'
 import { PayingContext } from '../contexts/PayingContext'
@@ -7,6 +7,19 @@ import { PayingContext } from '../contexts/PayingContext'
 function PayingCreditCardForm() {
 
     const { paymentMethod, setPaymentMethod } = useContext(PayingContext)
+
+    useEffect(() => {
+        setPaymentMethod({
+            tarjeta: true,
+            cuenta: false,
+            numero: "",
+            nombre: "",
+            fecha: "",
+            codigo: "",
+            cuotas: "",
+            proveedor: "Visa"
+        })
+    }, [])
 
     return (
         <div className='w-full'>
@@ -36,7 +49,7 @@ function PayingCreditCardForm() {
                 <InputPaymentForm
 
                     label='Fecha de expiración'
-                    type='text'
+                    type='date'
                     name='fecha'
                     id='fecha'
                     blocked={false}

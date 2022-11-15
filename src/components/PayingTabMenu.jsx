@@ -42,7 +42,7 @@ function PayingTabMenu({ children, selected, handleSelect }) {
                     <p></p>
                 </div>
             </div>
-            <div className='h-full w-fit'>
+            <div className='h-full w-full'>
                 {children}
             </div>
         </div>

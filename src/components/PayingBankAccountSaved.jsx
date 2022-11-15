@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { PayingContext } from '../contexts/PayingContext'
 import axios from 'axios'
+import ConsultButtonPaymentForm from './ConsultButtonPaymentForm'
 
 function PayingBankAccountSaved() {
 
@@ -19,14 +20,18 @@ function PayingBankAccountSaved() {
         })
             .then(res => {
                 if (res.data !== 'Empty result') {
-                    setBankAccounts(res.data)
+                    let accounts = res.data
+                    accounts.forEach(account => {
+                        account.saldo = -1
+                    })
+                    setBankAccounts(accounts)
+                    console.log(res.data)
                     setPaymentMethod({
                         tarjeta: false,
                         cuenta: true,
                         numero: res.data[0].numero,
                         nombre: res.data[0].nombre_titular,
                         email: res.data[0].email,
-                        saldo: res.data[0].saldo,
                         banco: res.data[0].banco
                     })
                 }
@@ -44,10 +49,32 @@ function PayingBankAccountSaved() {
             numero: bankAccounts[index].numero,
             nombre: bankAccounts[index].nombre_titular,
             email: bankAccounts[index].email,
-            saldo: bankAccounts[index].saldo,
             banco: bankAccounts[index].banco
         })
         setSelected(index)
+    }
+
+    const handleConsult = () => {
+        Promise.all(
+            bankAccounts.map((account, index) => {
+                return axios.get(`http://localhost:3000/balance/saldo-cuenta-${account.numero}`, {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                })
+                    .then(res => {
+                        setBankAccounts(bankAccounts.map((account, i) => {
+                            if (i === index) {
+                                account.saldo = res.data.saldo
+                            }
+                            return account
+                        }))
+                    })
+                    .catch(err => {
+                        alert('Un error inesperado ha ocurrido, por favor intente de nuevo')
+                    })
+            })
+        )
     }
 
     return (
@@ -56,14 +83,21 @@ function PayingBankAccountSaved() {
                 bankAccounts.map((item, index) => {
                     return (
                         <PayingBankAccountCard
+                            key={index}
                             bank={item.banco}
                             number={item.numero}
                             selected={selected === index}
                             handleSelect={handleSelect}
                             index={index}
+                            saldo={item.saldo}
                         />
                     )
                 })
+            }
+            {
+                (bankAccounts.length > 0) && <div className='flex justify-end mt-10'>
+                    <ConsultButtonPaymentForm handleConsult={handleConsult} />
+                </div>
             }
         </div>
     )

@@ -18,6 +18,8 @@ function PayingResume({ nombre, id, paymentmethod, number }) {
         navigate('/searcher')
     }
 
+    console.log(paymentMethod)
+
     return (
         <div className="flex flex-col h-[500px] justify-between w-full">
             <div>
@@ -34,7 +36,7 @@ function PayingResume({ nombre, id, paymentmethod, number }) {
                     Datos de pago
                 </h2>
                 <p className='text-lg'>
-                    {(paymentMethod.tarjeta) ? (paymentMethod.proveedor) : (paymentMethod.banco) + ' - ' + paymentMethod.numero}
+                    {((paymentMethod.tarjeta) ? (paymentMethod.proveedor) : (paymentMethod.banco)) + ' - ' + paymentMethod.numero}
                 </p>
             </div>
             <PayingConfirmButton handleNext={handleNext} handleCancel={handleCancel} />

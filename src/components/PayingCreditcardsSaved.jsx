@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react"
 import { UserContext } from "../contexts/UserContext"
 import { PayingContext } from "../contexts/PayingContext"
 import axios from 'axios'
+import ConsultButtonPaymentForm from "./ConsultButtonPaymentForm"
 
 function PayingCreditcardsSaved() {
 
@@ -20,7 +21,12 @@ function PayingCreditcardsSaved() {
         })
             .then(res => {
                 if (res.data !== 'Empty result') {
-                    setCreditCards(res.data)
+                    // add credito to each card
+                    let cards = res.data
+                    cards.forEach(card => {
+                        card.credito = -1
+                    })
+                    setCreditCards(cards)
                     setPaymentMethod({
                         tarjeta: true,
                         cuenta: false,
@@ -29,12 +35,9 @@ function PayingCreditcardsSaved() {
                         fecha: res.data[0].fecha_expiracion.split('T')[0],
                         codigo: res.data[0].cvv,
                         proveedor: res.data[0].proveedor,
-                        cuotas: ""
+                        cuotas: "",
                     })
                 }
-            })
-            .catch(err => {
-                setError('Un error inesperado ha ocurrido, por favor intente de nuevo')
             })
     }, [])
 
@@ -52,20 +55,51 @@ function PayingCreditcardsSaved() {
         setSelected(index)
     }
 
+    const handleConsult = () => {
+        // consult to API usign promise all
+        let creditCardsTemp = creditCards
+        Promise.all(
+            creditCards.map((card, index) => {
+                return axios.get(`http://localhost:3000/balance/credito-tarjeta-${card.numero}`, {
+                    headers: {
+                        'Authorization': `${token}`
+                    }
+                }).then(res => {
+                    setCreditCards(creditCardsTemp.map((card, i) => {
+                        if (i === index) {
+                            card.credito = res.data.credito
+                        }
+                        return card
+                    }))
+                }).catch(err => {
+                    alert('Un error inesperado ha ocurrido, por favor intente de nuevo')
+                })
+            })
+        )
+
+
+    }
+
     return (
         <div className='py-5 flex flex-col gap-3'>
             {
                 creditCards.map((item, index) => {
-                    return (
-                        <PayingCreditCardCard
-                            mark={item.proveedor}
-                            number={(item.numero + '').substring(12, 16)}
-                            selected={selected === index}
-                            handleSelect={handleSelect}
-                            index={index}
-                        />
-                    )
+                    console.log("que ascoooooo", item)
+                    return <PayingCreditCardCard
+                        key={index}
+                        mark={item.proveedor}
+                        number={(item.numero + '').substring(12, 16)}
+                        selected={selected === index}
+                        handleSelect={handleSelect}
+                        index={index}
+                        credito={item.credito}
+                    />
                 })
+            }
+            {
+                (creditCards.length > 0) && <div className="flex justify-end mt-10">
+                    <ConsultButtonPaymentForm handleConsult={handleConsult} />
+                </div>
             }
         </div>
     )

@@ -50,10 +50,6 @@ function Paying() {
 
     }
 
-    console.log("service", service)
-    console.log("sedeList", sedeList)
-    console.log("officeList", officeList)
-
     return (
         <>
             <div className="relative flex gap-10 justify-center items-start my-5 min-h-screen">

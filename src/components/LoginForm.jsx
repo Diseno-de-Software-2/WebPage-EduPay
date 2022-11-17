@@ -76,9 +76,9 @@ function LoginForm() {
                     Ingresar
                 </button>
             </form>
-            <p>
+            {/* <p>
                 ¿No tienes una cuenta? <a href='/searcher' className='text-blue-500 underline'>Seguir como invitado</a>
-            </p>
+            </p> */}
         </div>
     )
 }

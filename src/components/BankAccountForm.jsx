@@ -179,7 +179,7 @@ function BankAccountForm() {
                     <div className="flex gap-3 items-end">
                         <SelectPaymentForm
                             options={[
-                                { value: 'Eastern Bank', label: 'Eastern Bank' },
+                                { value: 'East Bank', label: 'East Bank' },
                                 { value: 'Western Bank', label: 'Western Bank' },
                             ]}
                             blocked={!create && !edit}

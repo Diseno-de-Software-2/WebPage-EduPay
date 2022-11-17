@@ -15,7 +15,7 @@ function PayingBankAccountForm() {
             nombre: "",
             email: "",
             saldo: 0,
-            banco: "Eastern Bank"
+            banco: "East Bank"
         })
     }, [])
 
@@ -56,7 +56,7 @@ function PayingBankAccountForm() {
             <SelectPaymentForm
                 label='Banco'
                 options={[
-                    { value: 'Eastern Bank', label: 'Eastern Bank' },
+                    { value: 'East Bank', label: 'East Bank' },
                     { value: 'Western Bank', label: 'Western Bank' },
                 ]}
                 blocked={false}

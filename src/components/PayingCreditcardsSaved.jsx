@@ -84,7 +84,7 @@ function PayingCreditcardsSaved() {
         <div className='py-5 flex flex-col gap-3'>
             {
                 creditCards.map((item, index) => {
-                    console.log("que ascoooooo", item)
+                    console.log("Item", item)
                     return <PayingCreditCardCard
                         key={index}
                         mark={item.proveedor}

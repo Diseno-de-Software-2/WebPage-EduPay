@@ -9,7 +9,8 @@ function InputPaymentForm({ label, type, name, id, blocked, value, onChange }) {
         id,
         disabled: blocked,
         value,
-        onChange
+        onChange,
+        min: "0"
     }
 
     return (

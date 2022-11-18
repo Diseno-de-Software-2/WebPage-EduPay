@@ -7,6 +7,7 @@ import ConsultButtonPaymentForm from "./ConsultButtonPaymentForm"
 
 function PayingCreditcardsSaved() {
 
+
     const [selected, setSelected] = useState(0)
     const { user, token } = useContext(UserContext)
     const [creditCards, setCreditCards] = useState([])
@@ -42,12 +43,13 @@ function PayingCreditcardsSaved() {
     }, [])
 
     const handleSelect = (index) => {
+        console.log("handleSelect")
         setPaymentMethod({
             tarjeta: true,
             cuenta: false,
             numero: creditCards[index].numero,
             nombre: creditCards[index].nombre_titular,
-            fecha: res.data[0].fecha_expiracion.split('T')[0],
+            fecha: creditCards[index].fecha_expiracion.split('T')[0],
             codigo: creditCards[index].cvv,
             cuotas: "",
             proveedor: creditCards[index].proveedor

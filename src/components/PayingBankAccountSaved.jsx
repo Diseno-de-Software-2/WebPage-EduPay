@@ -43,6 +43,7 @@ function PayingBankAccountSaved() {
 
 
     const handleSelect = (index) => {
+        console.log("handleSelect")
         setPaymentMethod({
             tarjeta: false,
             cuenta: true,

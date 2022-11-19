@@ -15,6 +15,7 @@ function Searcher() {
 
     const [services, setServices] = useState([])
     const [filteredServices, setFilteredServices] = useState([])
+    const [loading, setLoading] = useState(true)
 
     var no_queries = false
 
@@ -28,6 +29,7 @@ function Searcher() {
                 .then(res => {
                     setServices(res.data)
                     setFilteredServices(res.data)
+                    setLoading(false)
                 })
                 .catch(err => {
                     if (no_queries === false) {
@@ -36,6 +38,7 @@ function Searcher() {
                             alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
                         }
                     }
+                    setLoading(false)
                 })
         } else {
             axios.get(`http://localhost:3000/query/servicios-${sede}`, {
@@ -46,6 +49,7 @@ function Searcher() {
                 .then(res => {
                     setServices(res.data)
                     setFilteredServices(res.data)
+                    setLoading(false)
                 })
                 .catch(err => {
                     if (no_queries === false) {
@@ -54,6 +58,7 @@ function Searcher() {
                             alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
                         }
                     }
+                    setLoading(false)
                 })
         }
     }, [office])
@@ -95,7 +100,7 @@ function Searcher() {
                     <SearcherSearchBar />
                     <div className="flex flex-col gap-4">
                         {
-                            (services.length > 0) ? (
+                            (services.length > 0 && !loading) ? (
                                 (filteredServices.length > 0) ?
                                     (
                                         filteredServices.map((service, index) => {

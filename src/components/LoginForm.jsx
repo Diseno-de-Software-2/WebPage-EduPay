@@ -38,7 +38,9 @@ function LoginForm() {
                         case 400:
                             setError(response.data)
                             break;
-
+                        case 503:
+                            setError(`Servicio de ${response.data.service} no disponible, ${response.data.message}. Por favor inténtelo más tarde.`)
+                            break;
                         default:
                             setError('Ocurrió un error inesperado, por favor intente más tarde')
                             break;

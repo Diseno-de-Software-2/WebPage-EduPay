@@ -96,7 +96,11 @@ function BankAccountForm() {
                 }
             }).catch(err => {
                 console.log(err)
-                alert('Error al agregar cuenta')
+                if (err.response.status === 503) {
+                    alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                } else {
+                    alert(`Error al agregar cuenta, un error inesperado ha ocurrido.`)
+                }
             })
         }
     }
@@ -116,7 +120,11 @@ function BankAccountForm() {
                 }
             }
         }).catch(err => {
-            alert('Error al consultar saldo')
+            if (err.response.status === 503) {
+                alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+            } else {
+                alert(`Error al consultar saldo, un error inesperado ha ocurrido.`)
+            }
         })
     }
 
@@ -136,7 +144,11 @@ function BankAccountForm() {
             alert('Cuenta eliminada con éxito')
             setSelected(-1)
         }).catch(err => {
-            alert('Error al eliminar cuenta')
+            if (err.response.status === 503) {
+                alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+            } else {
+                alert(`Error al eliminar cuenta, un error inesperado ha ocurrido.`)
+            }
         })
 
 

@@ -30,7 +30,17 @@ function BankAccountsProvider({ children }) {
                 }
             })
             .catch(err => {
-                setError('Un error inesperado ha ocurrido, intente de nuevo')
+                switch (err.response.status) {
+                    case 400:
+                        setError(err.response.data)
+                        break;
+                    case 503:
+                        setError(`Servicio de ${err.response.data.service} no disponible`)
+                        break;
+                    default:
+                        setError('Ocurrió un error inesperado, por favor intente más tarde')
+                        break;
+                }
             })
     }, [])
 
@@ -52,7 +62,17 @@ function BankAccountsProvider({ children }) {
                     }
                 })
                 .catch(err => {
-                    setError('Un error inesperado ha ocurrido')
+                    switch (err.response.status) {
+                        case 400:
+                            setError(err.response.data)
+                            break;
+                        case 503:
+                            setError(`Servicio de ${err.response.data.service} no disponible`)
+                            break;
+                        default:
+                            setError('Ocurrió un error inesperado, por favor intente más tarde')
+                            break;
+                    }
                 })
         }
     }, [create, selected])

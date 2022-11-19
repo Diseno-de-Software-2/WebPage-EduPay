@@ -8,6 +8,7 @@ import ConsultButtonPaymentForm from './ConsultButtonPaymentForm'
 function PayingBankAccountSaved() {
 
     const [selected, setSelected] = useState(0)
+    const { error, setError } = useState('')
     const { user, token } = useContext(UserContext)
     const [bankAccounts, setBankAccounts] = useState([])
     const { setPaymentMethod, paymentMethod } = useContext(PayingContext)
@@ -37,7 +38,17 @@ function PayingBankAccountSaved() {
                 }
             })
             .catch(err => {
-                setError('Un error inesperado ha ocurrido, por favor intente de nuevo')
+                switch (err.response.status) {
+                    case 400:
+                        setError(err.response.data)
+                        break;
+                    case 503:
+                        setError(`Servicio de ${err.response.data.service} no disponible`)
+                        break;
+                    default:
+                        setError('Ocurrió un error inesperado, por favor intente más tarde')
+                        break;
+                }
             })
     }, [])
 
@@ -72,7 +83,18 @@ function PayingBankAccountSaved() {
                         }))
                     })
                     .catch(err => {
-                        alert('Un error inesperado ha ocurrido, por favor intente de nuevo')
+                        switch (err.response.status) {
+                            case 400:
+                                setError(err.response.data)
+                                break;
+                            case 503:
+                                setError(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                                break;
+                            default:
+                                setError('Ocurrió un error inesperado, por favor intente más tarde')
+                                break;
+                        }
+                        alert(error)
                     })
             })
         )

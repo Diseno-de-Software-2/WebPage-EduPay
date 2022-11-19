@@ -21,14 +21,21 @@ function ProcessingPayment() {
         }).then(res => {
             setState('success')
         }).catch(err => {
-            setState('error')
+            switch (err.response.status) {
+                case 503:
+                    setState(`Servicio de ${err.response.data.service} no disponible`)
+                    break;
+                default:
+                    setState('error')
+                    break;
+            }
         })
     }, [])
 
     return (
         <div className='flex flex-col items-center justify-center gap-10 my-10 w-[1000px] mx-auto'>
             <h1 className='text-5xl text-center font-bold'>
-                {(state === 'processing' ? 'Tu transacción está siendo procesada' : (state === 'success' ? 'Tu transancción fue exitosa' : 'Ha ocurrido un error y la transacción no se ha podido realizar'))}
+                {(state === 'processing' ? 'Tu transacción está siendo procesada' : (state === 'success' ? 'Tu transancción fue exitosa' : `Ha ocurrido un error y la transacción no se ha podido realizar.${(state !== 'error' ? ` ${state}` : '')}`))}
             </h1>
             <img className='w-52' src={(state === 'processing') ? '/PayState/In Progress.svg' : (state === 'success' ? '/PayState/Ok.svg' : '/PayState/Error.svg')} alt="" />
             {

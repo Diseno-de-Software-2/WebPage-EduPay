@@ -8,7 +8,7 @@ function PayingCreditCardCard({ mark, number, selected, handleSelect, index, cre
                 {mark + ' *' + number}
             </div>
             {
-                credito != -1 && <div>
+                credito != -1 && credito && <div>
                     {"$ " + credito}
                 </div>
             }

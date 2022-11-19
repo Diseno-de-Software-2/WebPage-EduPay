@@ -36,7 +36,11 @@ function PersonalInfoForm() {
                     fecha_nacimiento: birth_date
                 })
             }).catch((error) => {
-                alert('Error al actualizar usuario')
+                if (error.response.status === 503) {
+                    alert(`Servicio de ${error.response.data.service} no disponible, ${error.response.data.message}. Por favor inténtelo más tarde.`)
+                } else {
+                    alert(`Un error inesperado ha ocurrido, por favor intente de nuevo.`)
+                }
             })
         } else {
             alert('Hay campos vacíos o con formato incorrecto')

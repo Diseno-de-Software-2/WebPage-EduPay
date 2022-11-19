@@ -61,7 +61,11 @@ function SecurityForm() {
                     contraseña: newPassword
                 })
             }).catch(err => {
-                alert('Error al actualizar contraseña')
+                if (err.response.status === 503) {
+                    alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                } else {
+                    alert('Error al actualizar contraseña')
+                }
             })
             setActualPassword('')
             setNewPassword('')

@@ -9,10 +9,10 @@ function SearchHomeBar() {
     if (officeList.length === 0 || sedeList.length === 0) {
         return (
             <div className="my-10 text-center max-w-[1150px] mx-auto">
-                <h2 className="text-2xl font-thin mb-3">Busca aquí lo qué desees pagar</h2>
+                <h2 className="text-2xl font-thin mb-3">Busca aquí lo que desees pagar</h2>
                 <div className="flex flex-row items-center justify-center shadow-2xl py-5 px-10 gap-3 ">
                     <p className="text-xl opacity-70 mr-6 text-red-600">
-                        Ah ocurrido un error al cargar la información, por favor recarga la página
+                        No es posible realizar búsquedas en este momento, lamentamos las molestias. Recargue la página o intente más tarde.
                     </p>
                 </div>
             </div>
@@ -22,7 +22,7 @@ function SearchHomeBar() {
 
     return (
         <div className="my-10 text-center max-w-[1150px] mx-auto">
-            <h2 className="text-2xl font-thin mb-3">Busca aquí lo qué desees pagar</h2>
+            <h2 className="text-2xl font-thin mb-3">Busca aquí lo que desees pagar</h2>
             <div className="flex flex-row items-center justify-between shadow-2xl py-5 px-10 gap-3">
                 <input type="text" placeholder="Buscar" className="w-96 h-12 border-2 border-black grow pl-3" onChange={
                     (e) => {

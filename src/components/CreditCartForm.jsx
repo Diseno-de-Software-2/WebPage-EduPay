@@ -102,8 +102,12 @@ function CreditCartForm() {
                         setCreate(false)
                         setSelected(0)
                     }
-                }).catch((error) => {
-                    alert('Error al agregar la tarjeta')
+                }).catch((err) => {
+                    if (err.response.status === 503) {
+                        alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                    } else {
+                        alert(`Error al agregar la tarjeta, un error inesperado ha ocurrido.`)
+                    }
                 })
             }
         }
@@ -123,8 +127,12 @@ function CreditCartForm() {
         }).then((response) => {
             alert('Tarjeta eliminada con éxito')
             setSelected(-1)
-        }).catch((error) => {
-            alert('Error al eliminar la tarjeta')
+        }).catch((err) => {
+            if (err.response.status === 503) {
+                alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+            } else {
+                alert(`Error al eliminar la tarjeta, un error inesperado ha ocurrido.`)
+            }
         })
     }
 
@@ -142,8 +150,12 @@ function CreditCartForm() {
                     setCardCredit(response.data.credito)
                 }
             }
-        }).catch((error) => {
-            alert('Error al consultar el saldo')
+        }).catch((err) => {
+            if (err.response.status === 503) {
+                alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+            } else {
+                alert(`Error al consultar crédito disponible, un error inesperado ha ocurrido.`)
+            }
         })
     }
 

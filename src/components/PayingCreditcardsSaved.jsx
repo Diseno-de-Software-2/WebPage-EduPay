@@ -36,7 +36,7 @@ function PayingCreditcardsSaved() {
                         fecha: res.data[0].fecha_expiracion.split('T')[0],
                         codigo: res.data[0].cvv,
                         proveedor: res.data[0].proveedor,
-                        cuotas: "",
+                        cuotas: "1",
                     })
                 }
             })
@@ -73,11 +73,15 @@ function PayingCreditcardsSaved() {
                         }
                         return card
                     }))
-                }).catch(err => {
-                    alert('Un error inesperado ha ocurrido, por favor intente de nuevo')
                 })
             })
-        )
+        ).catch(err => {
+            if (err.response.status === 503) {
+                alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+            } else {
+                alert(`Un error inesperado ha ocurrido, por favor intente de nuevo.`)
+            }
+        })
 
 
     }

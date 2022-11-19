@@ -16,6 +16,8 @@ function Searcher() {
     const [services, setServices] = useState([])
     const [filteredServices, setFilteredServices] = useState([])
 
+    var no_queries = false
+
     useEffect(() => {
         if (office !== "") {
             axios.get(`http://localhost:3000/query/services-${sede}-${office}`, {
@@ -28,7 +30,12 @@ function Searcher() {
                     setFilteredServices(res.data)
                 })
                 .catch(err => {
-                    console.log(err)
+                    if (no_queries === false) {
+                        no_queries = true
+                        if (err.response.status === 503) {
+                            alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                        }
+                    }
                 })
         } else {
             axios.get(`http://localhost:3000/query/servicios-${sede}`, {
@@ -41,7 +48,12 @@ function Searcher() {
                     setFilteredServices(res.data)
                 })
                 .catch(err => {
-                    console.log(err)
+                    if (no_queries === false) {
+                        no_queries = true
+                        if (err.response.status === 503) {
+                            alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                        }
+                    }
                 })
         }
     }, [office])
@@ -58,7 +70,12 @@ function Searcher() {
                     setFilteredServices(res.data)
                 })
                 .catch(err => {
-                    console.log(err)
+                    if (no_queries === false) {
+                        no_queries = true
+                        if (err.response.status === 503) {
+                            alert(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                        }
+                    }
                 })
         }
     }, [sede])
@@ -100,7 +117,7 @@ function Searcher() {
                                         </>
                                     )) : (
                                 <p className="text-3xl mx-auto text-red-400">
-                                    Ah ocurrido un error, por favor intente nuevamente más tarde
+                                    Ha ocurrido un error, por favor intente nuevamente más tarde
                                 </p>
                             )
                         }

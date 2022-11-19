@@ -30,7 +30,17 @@ function PaymentHistory() {
                     }
                 })
                 .catch(err => {
-                    setError('Error al cargar el historial, intente nuevamente')
+                    switch (err.response.status) {
+                        case 400:
+                            setError(err.response.data)
+                            break;
+                        case 503:
+                            setError(`Servicio de ${err.response.data.service} no disponible, ${err.response.data.message}. Por favor inténtelo más tarde.`)
+                            break;
+                        default:
+                            setError('Ocurrió un error inesperado, por favor intente más tarde')
+                            break;
+                    }
                 })
         }
     }, [])

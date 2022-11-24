@@ -67,7 +67,7 @@ function PaymentHistory() {
             </div>
             <div className='flex flex-col h-auto w-[1000px] shadow-2xl mx-auto p-5'>
                 {
-                    payments.map(payment => {
+                    payments.reverse().map(payment => {
                         return <HistorialItem key={payment.id} concepto={payment.servicio} fecha={payment.fecha.split('T')[0]} precio={payment.precio} medio={payment.metodo_pago + ((payment.cuotas) ? (' | ' + payment.cuotas + " cuotas") : (''))} exitoso={payment.exitoso} />
                     })
                 }

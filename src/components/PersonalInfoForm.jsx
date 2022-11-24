@@ -29,6 +29,7 @@ function PersonalInfoForm() {
             }).then((response) => {
                 alert('Información actualizada')
                 setUser({
+                    ...user,
                     nombre: name,
                     apellidos: lastName,
                     email: email,

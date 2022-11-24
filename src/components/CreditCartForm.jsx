@@ -28,12 +28,14 @@ function CreditCartForm() {
             setCardDate(creditCards[selected].fecha_expiracion.toString().split('T')[0])
             setCardCvv(creditCards[selected].cvv)
             setCardProveedor(creditCards[selected].proveedor)
+            setCardCredit('')
         } else {
             setCardNumber('')
             setCardName('')
             setCardDate('')
             setCardCvv('')
             setCardProveedor('Visa')
+            setCardCredit('')
         }
     }, [create, selected, creditCards])
 

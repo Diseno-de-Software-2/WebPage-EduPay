@@ -85,7 +85,15 @@ function PayingCreditCardForm() {
                     id='cuotas'
                     blocked={false}
                     value={paymentMethod.cuotas}
-                    onChange={(e) => setPaymentMethod({ ...paymentMethod, cuotas: e.target.value })}
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                        if (e.target.value > 0 && !isNaN(e.target.value)) {
+                            setPaymentMethod({ ...paymentMethod, cuotas: e.target.value })
+                        } else {
+                            setPaymentMethod({ ...paymentMethod, cuotas: '' })
+                        }
+                    }
+                    }
                 />
             </div>
         </div>

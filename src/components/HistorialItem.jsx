@@ -1,12 +1,12 @@
 import React from 'react'
 
-function HistorialItem({ concepto, precio, fecha, medio }) {
+function HistorialItem({ concepto, precio, fecha, medio, exitoso }) {
     return (
         <div>
             <div className='flex justify-between text-start my-2'>
-                <div>
+                <div className={!exitoso && 'text-red-600'}>
                     <p>
-                        {concepto}
+                        {concepto + (!exitoso ? '- Fallido' : "")}
                     </p>
                     <p>
                         {fecha}
@@ -15,7 +15,7 @@ function HistorialItem({ concepto, precio, fecha, medio }) {
                         {precio}
                     </p>
                 </div>
-                <div className='text-end'>
+                <div className={!exitoso ? 'text-red-600 text-end' : 'text-end'}>
                     <p className='w-52 text-right'>
                         {medio}
                     </p>

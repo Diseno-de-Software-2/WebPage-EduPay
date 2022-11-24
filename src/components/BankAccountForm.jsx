@@ -26,11 +26,13 @@ function BankAccountForm() {
             setBankName(bankAccounts[selected].nombre_titular)
             setBankEmail(bankAccounts[selected].email)
             setBankType(bankAccounts[selected].banco)
+            setBankBalance('')
         } else {
             setBankNumber('')
             setBankName('')
             setBankEmail('')
             setBankType('Western Bank')
+            setBankBalance('')
         }
     }, [create, selected, bankAccounts])
 
